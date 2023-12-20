@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
+</head>
+<body>
+    {% extends 'navbar.html' %}
+    {% block title %}
+      Welcome to SwaadSagaar
+    {% endblock %}
+    {% block content %}
+    <div class="wrapper">
+        <div class="login_box">
+            <div class="login-header">
+                <span>Login</span>
+            </div>
+            <form action="/login_verify" method="post">
+                <div class="input_box">
+                    <input type="text" name="email" class="input-field" placeholder="Enter your email id" required>
+                    <i class="bx bx-user icon"></i> 
+                </div>
+        
+                <div class="input_box">
+                    <input type="password" name="password" class="input-field" placeholder="Enter your password" required>
+                    <i class="bx bx-lock-alt icon"></i> 
+                </div>
+        
+                <div class="remember-forgot">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">Remember me</label>
+                    </div>
+                    <div class="forgot">
+                        <a href="#">Forgot Password</a>
+                    </div>
+                </div>
+        
+                <div class="input_box">
+                    <input type="submit" class="input-submit" value="Login">
+                </div>
+        
+                <div class="register">
+                    <span>Don't have an account <a href="/signup">Register</a></span>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+    
+</body>
+</html>

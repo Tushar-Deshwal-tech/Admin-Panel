@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body style="margin-top: 50px;">
+{% block title %}
+{% endblock %}
+<header>
+    <div class="navbar">
+        <div class="logo"><a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="">logo</a></div>
+        <div class="text">
+            <div><a href="/">Home</a></div>
+            <div><a href="/products">Products</a></div>
+            <div><a href="/admin">Admin</a></div> 
+        </div>
+        {% if user_name %}
+      <div>
+        <div class="login"><span class="user_name">{{ user_name.title() }}</span><a href="/logout">Logout</a></div>
+      </div>
+    {% else %}
+      <div class="login"><a href="/login">Login</a></div>
+    {% endif %}
+    </div>
+</header>
+<div>
+    <aside id="default-sidebar" class="fixed top-2 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+        <ul class="space-y-2 font-medium">
+            <li>
+                <a href="/admin" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <span class="ms-3">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="/add" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <span class="ms-3">Add Products</span>
+                </a>
+            </li>
+            <li>
+                <a href="/add" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                <span class="ms-3">Edit Products</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </aside>
+     
+     <div class="p-4 sm:ml-64">
+        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+            {% block content %}
+            {% endblock %}
+        </div>
+     </div>
+</div>
+
+</body>
+</html>

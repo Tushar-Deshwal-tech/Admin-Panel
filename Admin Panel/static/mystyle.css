@@ -1,0 +1,213 @@
+/* Start navbar page */
+*{
+    margin: 0;
+    padding: 0;
+  
+    font-family: 'Times New Roman';
+}
+body{
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+header { 
+    padding-top: 2;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 8000;
+    cursor: pointer;
+    color: black;
+}
+#flashMessagesModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 40%;
+    max-width: 400px;
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+#closeModalBtn {
+    margin-top: 20px;
+    width: 50px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;   
+    align-items: center;
+    font-size: medium;
+    color: black;
+}
+.navbar a {
+    text-decoration: none;
+    color: black;
+}
+.navbar a:hover{
+    color: blue;
+}
+.text {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+.text > div {
+    margin-right: 40px;
+    position: relative;
+    display: inline-block;
+}
+.text > div:hover {
+    color: blue;
+}
+.login a {
+    margin-right: 15px;
+}
+.number {
+    content: '';
+    position: absolute;
+    top: -5px;
+    right: -25px;
+    background-color: #f00;
+    color: #fff;
+    border-radius: 150%;
+    padding: 6px;
+}
+.logo img{
+    width: 50px;
+    height: 50px;
+}
+.logo a {    
+    display: flex;
+    align-items: center;
+}
+/* End navbar page */
+
+/* Start login and signup page */
+:root{
+    --primary-colour: #c6c3c3;
+    --second-colour: #ffffff;
+    --black-colour: #000000;
+}
+a{
+    text-decoration: none;
+    color: var(--second-colour);
+}
+a:hover{
+    text-decoration: underline;
+}
+.wrapper{   
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    
+}
+.login_box{
+    position: relative;
+    width: 450px;
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--primary-colour);
+    border-radius: 15px;
+    padding: 7.5em 2.5em 4em 2.5em;
+    color: black
+}
+.login-header{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-colour);
+    width: 140px;
+    height: 70px;
+    border-radius: 0 0 20px 20px;
+}
+.login-header span{
+    font-size: 30px;
+    color: black
+}
+.icon{
+    position: absolute;
+    top: 18px;
+    right: 25px;
+    font-size: 20px;
+}
+.remember-forgot{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: var(--black-colour);
+}
+.forgot a{
+    color: var(--black-colour);
+}
+.input_box{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 20px 0;
+}
+.input-field{
+    width: 100%;
+    height: 55px;
+    font-size: 16px;
+    background: transparent;
+    color: var(--black-colour);
+    padding-inline: 20px 50px;
+    border: 2px solid var(--primary-colour);
+    border-radius: 30px;
+    outline: none;
+}
+.input-submit{
+    width: 100%;
+    height: 50px;
+    background: #ececec;
+    font-size: 16px;
+    font-weight: 500;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s;
+}
+.register{
+    text-align: center;
+    color: var(--black-colour);
+}
+.register a{
+    font-weight: 500;
+    color: var(--black-colour);
+}
+.signup_box{
+    position: relative;
+    width: 550px;
+    backdrop-filter: blur(25px);
+    border: 2px solid var(--primary-colour);
+    border-radius: 15px;
+    padding: 7.5em 2.5em 4em 2.5em;
+    color: var(--black-colour)
+}
+.name{
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+.user_name{
+    padding-right: 40px;
+}
+/* End login and signup page */

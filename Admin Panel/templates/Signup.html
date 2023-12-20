@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
+</head>
+<body>
+    {% extends 'navbar.html' %}
+    {% block title %}
+      Welcome to SwaadSagaar
+    {% endblock %}
+    {% block content %}
+    <div class="wrapper">
+        <div class="signup_box">
+            <div class="login-header">
+                <span>Sign-up</span>
+            </div>
+            <form action="/insert_user" method="post">
+
+                <div class="input_box">
+                    <input type="text" name="email" class="input-field" placeholder="Enter your email id" required>
+                </div>
+        
+                <div class="input_box">
+                    <input type="password" name="password" class="input-field" placeholder="Enter your password" required>
+                    <i class="bx bx-lock-alt icon"></i> 
+                </div>
+
+                <div class="name">
+                    <div class="user_name">
+                        <input type="text" name="name" class="input-field" placeholder="Enter your first name" required>
+                    </div>
+                    <div class="">
+                        <input type="text" name="last" class="input-field" placeholder="Enter your last name" required>
+                    </div> 
+                </div>
+                
+                <div class="input_box">
+                    <input type="number" name="number" class="input-field" placeholder="Enter your number" required>
+                </div>
+        
+                <div class="input_box">
+                    <input type="submit" class="input-submit" value="Save">
+                </div>
+                <div class="register">
+                    <a href="/login">Back to login</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>
