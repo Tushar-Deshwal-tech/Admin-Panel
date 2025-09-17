@@ -1,20 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, flash ,get_flashed_messages
-from mysql.connector import connect, Error
 from static import food_list
 import json
+import os
+from flask import Flask, jsonify
+from supabase import create_client, Client
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__, static_folder='static')
-app.secret_key = 'b7ab5b72cbed5e00510e30ea74f2aec3'
+
+url: str = os.getenv("SUPABASE_URL")
+key: str = os.getenv("SUPABASE_KEY")
+supabase: Client = create_client(url, key)
 
 items = food_list
 
-mydata = connect(host="localhost", user="root", database="food", password='8403', port=3306)
-cursor = mydata.cursor()
-
-products = "SELECT * FROM login"
-cursor.execute(products)
-result = cursor.fetchall()
-data = result
+data = supabase.table("user_profiles").select("*").execute()
+data = data.data
 
 user_name = None
 @app.route('/')
@@ -39,7 +42,7 @@ def add_cart(item_index):
             return redirect(url_for("login"))
         else:
             flash("sucessful")
-    except Error as e:
+    except Exception as e:
         flash("Error: " + str(e))
     return render_template('products.html', item=prodcut, user_name=user_name)
 
@@ -61,24 +64,23 @@ def login_verify():
         user_email = request.form.get('email')
         user_password = request.form.get('password')
 
-        database_query = f"SELECT email_id, password, name FROM login WHERE email_id = %s"
-        
         try:
-            cursor.execute(database_query, (user_email,))
-            result = cursor.fetchone()
-            
+            result = supabase.table("user_profiles").select("email_id, password, name").eq("email_id", user_email).execute()
+            result = result.data
+
             if result:
-                if user_email == result[0] and user_password == result[1]:
+                row = result[0]
+                if user_email == row["email_id"] and user_password == row["password"]:
                     flash("Login Successful")
-                    user_name = result[2]
+                    user_name = row["name"]
                     return redirect(url_for('index'))
-                elif user_email == result[0] and user_password != result[1]:
+                elif user_email == row["email_id"] and user_password != row["password"]:
                     flash("Password wrong")
                     return redirect(url_for('login'))
             else:
                 flash("user not found: if you have not account please create account first:")
                 return redirect(url_for("signup"))
-        except Error as e:
+        except Exception as e:
             flash("error: " + str(e))
             return redirect(url_for("login"))
     return render_template('login.html')
@@ -96,15 +98,18 @@ def insert_user():
         user_last = request.form.get('last')
         user_number = request.form.get('number')
 
-        query = "INSERT INTO login (email_id, password, name, last, number) VALUES (%s, %s, %s, %s, %s)"
-        values = (user_email, user_password, user_name, user_last, user_number)
-
         try:
-            cursor.execute(query, values)
-            mydata.commit()
+            supabase.table("user_profiles").insert({
+                "email_id": user_email,
+                "password": user_password,
+                "name": user_name,
+                "last": user_last,
+                "number": user_number
+            }).execute()
+
             flash("Insert successful")
             return redirect(url_for("login"))
-        except Error as e:
+        except Exception as e:
             print(e)
             return redirect(url_for("signup"))
 

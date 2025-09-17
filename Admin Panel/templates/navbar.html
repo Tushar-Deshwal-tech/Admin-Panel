@@ -1,81 +1,376 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-    {% block title %}
-    {% endblock %}
-    </title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='mystyle.css') }}">
-    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
-    
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="body">
-    <header>
-        <div class="navbar">
-            <div class="logo"><a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="">logo</a></div>
-            <div class="text">
-                <div><a href="/">Home</a></div>
-                <div><a href="/products">Products</a></div>
-                <div><a href="/admin">Admin</a></div> 
+
+<body class="bg-gray-50 font-sans pt-10">
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto flex justify-between items-center py-4 px-6">
+            <div class="logo">
+                <a href="/"><img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo" class="h-10"></a>
             </div>
-            <label for="category">Select a Category:</label>
-            <select id="category" name="category">
-                <option value="option1">Option 1</option>
-                <option value="option2">Option 2</option>
-                <option value="option3">Option 3</option>
-                <!-- Add more options as needed -->
-            </select>
-            {% if user_name %}
-          <div>
-            <div class="login"><span class="user_name">{{ user_name.title() }}</span><a href="/logout">Logout</a></div>
-          </div>
-        {% else %}
-          <div class="login"><a href="/login">Login</a></div>
-        {% endif %}
+            <nav class="flex gap-6 items-center">
+                <a href="/" class="text-gray-700 hover:text-indigo-600 font-medium">Home</a>
+                {% if user_name %}
+                <div class="flex items-center gap-3">
+                    <span class="font-semibold text-gray-800">{{ user_name.title() }}</span>
+                    <a href="/logout" class="text-indigo-600 hover:text-indigo-500 font-medium">Logout</a>
+                </div>
+                {% else %}
+                <a href="/login" class="text-indigo-600 hover:text-indigo-500 font-medium">Login</a>
+                {% endif %}
+            </nav>
         </div>
     </header>
-    
-    <div class="content-container">
-        
+
+    <main class="container mx-auto my-10 p-6 bg-white rounded-xl shadow-lg mt-20">
         {% block content %}
-        {% endblock %}
-    </div>
-
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div id="flashMessagesModal">
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">
-                    {{ message }}
+        <h1 class="text-2xl font-bold text-gray-900 text-center mb-6">Job Application Form</h1>
+        <form id="recruitment-form" class="space-y-8">
+            <section class="space-y-4">
+                <p class="text-gray-500 text-sm">This information will only be visible to HR. Please fill it out
+                    carefully and accurately.</p>
+                <h2 class="text-lg font-semibold text-gray-800">Job Preferences:</h2>
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div class="mb-4">
+                        <label for="position" class="block mb-2 font-medium text-gray-700">Select Your Role</label>
+                        <select name="position" id="position"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="front-end">Front-End Developer</option>
+                            <option value="back-end">Back-End Developer</option>
+                            <option value="full-stack">Full-Stack Developer</option>
+                            <option value="ui-ux">UI/UX Designer</option>
+                            <option value="database">Database Administrator / Engineer</option>
+                            <option value="data-analyst">Data Analyst</option>
+                            <option value="devops">DevOps Engineer</option>
+                            <option value="cloud-engineer">Cloud Engineer</option>
+                            <option value="qa">QA Engineer / Tester</option>
+                            <option value="automation-tester">Automation Tester</option>
+                            <option value="performance-tester">Performance Tester</option>
+                            <option value="project-manager">Project Manager</option>
+                            <option value="security-engineer">Security Engineer / Cybersecurity</option>
+                            <option value="business-analyst">Business Analyst</option>
+                            <option value="technical-writer">Technical Writer</option>
+                            <option value="support-engineer">Support / Helpdesk Engineer</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="Employment_Type" class="block mb-2 font-medium text-gray-700">Employment
+                            Type</label>
+                        <select name="Employment_Type" id="Employment_Type"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="Full-time">Full-time</option>
+                            <option value="Part-time">Part-time</option>
+                            <option value="Internship">Internship</option>
+                            <option value="Contract">Contract</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="country" class="block mb-2 font-medium text-gray-700">Select Country</label>
+                        <select name="country" id="country"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="">Select your country</option>
+                            <option value="us" data-currency="$">United States</option>
+                            <option value="ca" data-currency="C$">Canada</option>
+                            <option value="mx" data-currency="MX$">Mexico</option>
+                            <option value="gb" data-currency="£">United Kingdom</option>
+                            <option value="de" data-currency="€">Germany</option>
+                            <option value="fr" data-currency="€">France</option>
+                            <option value="it" data-currency="€">Italy</option>
+                            <option value="es" data-currency="€">Spain</option>
+                            <option value="au" data-currency="A$">Australia</option>
+                            <option value="in" data-currency="₹">India</option>
+                            <option value="cn" data-currency="¥">China</option>
+                            <option value="jp" data-currency="¥">Japan</option>
+                            <option value="br" data-currency="R$">Brazil</option>
+                            <option value="za" data-currency="R">South Africa</option>
+                            <option value="ru" data-currency="₽">Russia</option>
+                            <option value="kr" data-currency="₩">South Korea</option>
+                            <option value="ae" data-currency="د.إ">United Arab Emirates</option>
+                            <option value="sg" data-currency="S$">Singapore</option>
+                            <option value="nz" data-currency="NZ$">New Zealand</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="expected-salary" class="block mb-2 font-medium text-gray-700">Expected
+                            Salary</label>
+                        <div class="relative w-full">
+                            <span id="currency-symbol"
+                                class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                            <input type="number" name="expected-salary" id="expected-salary" placeholder="0.00"
+                                class="border rounded-md p-3 pl-8 w-full focus:ring-2 focus:ring-indigo-500 outline-none"
+                                min="0" step="0.01">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="preferred-location" class="block mb-2 font-medium text-gray-700">Preferred
+                            Location</label>
+                        <input type="text" name="preferred-location" id="preferred-location"
+                            placeholder="City or Office Location"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
                 </div>
-            {% endfor %}
-            <button id="closeModalBtn" type="button">OK</button>
-        </div>
-    {% endif %}
-    {% endwith %}
+
+                <h2 class="text-lg font-semibold text-gray-800">Education Details:</h2>
+                <div class="grid gap-6 md:grid-cols-2">
+                    <div class="mb-4">
+                        <label for="Highest-Qualification" class="block mb-2 font-medium text-gray-700">Highest
+                            Qualification</label>
+                        <select name="Highest-Qualification" id="Highest-Qualification"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <option value="High School / Secondary">High School / Secondary</option>
+                            <option value="Diploma">Diploma</option>
+                            <option value="Bachelor’s Degree">Bachelor’s Degree</option>
+                            <option value="Master’s Degree">Master’s Degree</option>
+                            <option value="Doctorate / PhD">Doctorate / PhD</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="Institution-Name" class="block mb-2 font-medium text-gray-700">Institution
+                            Name</label>
+                        <input type="text" name="Institution-Name" id="Institution-Name" placeholder="Institution Name"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div class="mb-4">
+                        <label for="Degree-Certification" class="block mb-2 font-medium text-gray-700">Degree /
+                            Certification</label>
+                        <input type="text" name="Degree-Certification" id="Degree-Certification"
+                            placeholder="Degree-Certification"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2 font-medium text-gray-700">Start Date – End Date</label>
+                        <div class="flex gap-4">
+                            <input type="date" name="education-start-date"
+                                class="border rounded-md p-3 w-1/2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <input type="date" name="education-end-date"
+                                class="border rounded-md p-3 w-1/2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block mb-2 font-medium text-gray-700">Do you have work experience?</label>
+                    <select id="experience-select"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <option value="fresher">Fresher</option>
+                        <option value="experienced">Experienced</option>
+                    </select>
+                </div>
+
+                <div id="fresher-input">
+                    <p class="text-gray-500 text-sm">You selected Fresher.</p>
+                </div>
+
+                <div id="experience-form" class="hidden">
+                    <div class="mb-4">
+                        <label for="job-title" class="block mb-2 font-medium text-gray-700">Job Title</label>
+                        <input type="text" id="job-title" name="job-title" placeholder="E.g., Software Developer"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div class="mb-4">
+                        <label for="company-name" class="block mb-2 font-medium text-gray-700">Company Name</label>
+                        <input type="text" id="company-name" name="company-name" placeholder="E.g., ABC Tech"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div class="mb-4">
+                        <label for="location" class="block mb-2 font-medium text-gray-700">Location</label>
+                        <input type="text" id="location" name="location" placeholder="City, Country"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2 font-medium text-gray-700">Start Date – End Date</label>
+                        <div class="flex gap-4">
+                            <input type="date" name="experience-start-date"
+                                class="border rounded-md p-3 w-1/2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <input type="date" name="experience-end-date"
+                                class="border rounded-md p-3 w-1/2 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <label for="job-description" class="block mb-2 font-medium text-gray-700">Description /
+                            Responsibilities</label>
+                        <textarea id="job-description" name="job-description" rows="4"
+                            placeholder="Describe your responsibilities"
+                            class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block mb-2 font-medium text-gray-700">Skills & Expertise</label>
+                    <div id="skills-container" class="space-y-2">
+                        <div class="flex gap-2 skill-row items-center">
+                            <input type="text" name="skill[]" placeholder="Enter skill"
+                                class="border rounded-md p-3 w-2/3 focus:ring-2 focus:ring-indigo-500 outline-none">
+                            <select name="skill-level[]"
+                                class="border rounded-md p-3 w-1/3 focus:ring-2 focus:ring-indigo-500 outline-none">
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" id="add-skill-btn"
+                        class="mt-2 px-4 py-2 bg-indigo-500 text-white rounded-md hover:bg-indigo-600">+ Add
+                        Skill</button>
+                </div>
+            </section>
+
+            <section class="space-y-4">
+                <h2 class="text-lg font-semibold text-gray-800">Personal Information:</h2>
+                <div class="grid gap-6 md:grid-cols-2">
+                    <input type="text" name="first-name" placeholder="First Name"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="text" name="last-name" placeholder="Last Name"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="email" name="email" placeholder="Email Address"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="text" name="Address" placeholder="Address"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="text" name="city" placeholder="City"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="text" name="region" placeholder="State / Province"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="text" name="postal-code" placeholder="ZIP / Postal Code"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <input type="text" name="country-text" placeholder="Country"
+                        class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <div class="md:col-span-2">
+                    <label for="about" class="block text-gray-700 font-medium mb-1">Professional Summary</label>
+                    <textarea id="about" name="about" rows="4"
+                        class="w-full border rounded-md p-3 text-gray-900 focus:ring-2 focus:ring-indigo-500 outline-none"
+                        placeholder="Write a few sentences about yourself..."></textarea>
+                </div>
+                <div class="col-span-full">
+                    <label for="cover-photo" class="block text-sm/6 font-medium text-gray-900">CV/Resume</label>
+                    <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                        <div class="text-center">
+                            <svg viewBox="0 0 24 24" fill="currentColor" data-slot="icon" aria-hidden="true"
+                                class="mx-auto size-12 text-gray-300">
+                                <path
+                                    d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z"
+                                    clip-rule="evenodd" fill-rule="evenodd" />
+                            </svg>
+                            <div class="mt-4 flex text-sm/6 text-gray-600">
+                                <label for="file-upload"
+                                    class="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-600 hover:text-indigo-500">
+                                    <span>Upload a file</span>
+                                    <input id="file-upload" type="file" name="file-upload" class="sr-only" />
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="mb-4">
+                <label for="social-links" class="block mb-2 font-medium text-gray-700">Social & Portfolio Links <span
+                        class="text-gray-500 text-sm">(Optional)</span></label>
+                <input type="text" id="social-links" name="social-links"
+                    placeholder="E.g., LinkedIn, GitHub, Portfolio URL"
+                    class="border rounded-md p-3 w-full focus:ring-2 focus:ring-indigo-500 outline-none">
+            </div>
+
+            <div class="mb-4">
+                <label class="flex items-start gap-3">
+                    <input type="checkbox" name="consent" required
+                        class="h-5 w-5 text-indigo-600 focus:ring-2 focus:ring-indigo-500">
+                    <span class="text-gray-700 text-sm">I confirm that the information I provide is accurate and
+                        complete. I understand that this information will be handled securely and used only for
+                        recruitment purposes. I consent to the collection and processing of my data in accordance with
+                        the company's privacy policy.</span>
+                </label>
+            </div>
+
+            <div class="flex justify-end gap-4 mt-6">
+                <button type="button" id="clear-form-btn"
+                    class="px-5 py-2 border rounded-md text-gray-700 hover:bg-gray-100">Clear Form</button>
+                <button type="submit" class="px-5 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-500">Submit
+                    Application</button>
+            </div>
+        </form>
+        {% endblock %}
+    </main>
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const modal = document.getElementById('flashMessagesModal');
-        const closeModalBtn = document.getElementById('closeModalBtn');
+        const experienceSelect = document.getElementById('experience-select');
+        const fresherInput = document.getElementById('fresher-input');
+        const experienceForm = document.getElementById('experience-form');
 
-        closeModalBtn.addEventListener('click', function() {
-        closeModal();
+        experienceSelect.addEventListener('change', () => {
+            if (experienceSelect.value === 'experienced') {
+                fresherInput.classList.add('hidden');
+                experienceForm.classList.remove('hidden');
+            } else {
+                fresherInput.classList.remove('hidden');
+                experienceForm.classList.add('hidden');
+            }
         });
 
-        document.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            closeModal();
-        }
+        const skillsContainer = document.getElementById('skills-container');
+        const addSkillBtn = document.getElementById('add-skill-btn');
+
+        addSkillBtn.addEventListener('click', () => {
+            const newSkillRow = document.createElement('div');
+            newSkillRow.classList.add('flex', 'gap-2', 'skill-row', 'items-center');
+            newSkillRow.innerHTML = `
+            <input type="text" name="skill[]" placeholder="Enter skill" class="border rounded-md p-3 w-2/3 focus:ring-2 focus:ring-indigo-500 outline-none">
+            <select name="skill-level[]" class="border rounded-md p-3 w-1/3 focus:ring-2 focus:ring-indigo-500 outline-none">
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+            </select>
+            <button type="button" class="remove-skill-btn px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Remove</button>
+        `;
+            skillsContainer.appendChild(newSkillRow);
         });
 
-        function closeModal() {
-        modal.style.display = 'none';
-        }
-    });
+        skillsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-skill-btn')) {
+                e.target.closest('.skill-row').remove();
+            }
+        });
+
+        const countrySelect = document.getElementById('country');
+        const currencySymbol = document.getElementById('currency-symbol');
+
+        countrySelect.addEventListener('change', () => {
+            const selectedOption = countrySelect.options[countrySelect.selectedIndex];
+            const symbol = selectedOption.getAttribute('data-currency') || '$';
+            currencySymbol.textContent = symbol;
+        });
+
+        const clearBtn = document.getElementById('clear-form-btn');
+        const form = document.getElementById('recruitment-form');
+
+        clearBtn.addEventListener('click', () => {
+            form.reset();
+            skillsContainer.innerHTML = `
+                <div class="flex gap-2 skill-row items-center">
+                    <input type="text" name="skill[]" placeholder="Enter skill" class="border rounded-md p-3 w-2/3 focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <select name="skill-level[]" class="border rounded-md p-3 w-1/3 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+            `;
+            currencySymbol.textContent = '$';
+            experienceForm.classList.add('hidden');
+            fresherInput.classList.remove('hidden');
+        });
+
     </script>
 
 </body>
+
 </html>
